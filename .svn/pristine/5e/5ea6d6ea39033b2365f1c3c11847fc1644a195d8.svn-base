@@ -1,0 +1,179 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Windows.Devices.Enumeration;
+using Windows.Foundation;
+using Windows.Media.Capture;
+using Windows.Media.MediaProperties;
+using Windows.Storage;
+
+namespace TestCamera
+{
+    /// <summary>
+    /// 摄像头辅助者，定义相关
+    /// </summary>
+    public static partial class CameraHelper
+    {
+
+        #region 事件
+
+        public delegate Task NeedSetControlsDelegate(MediaCapture media);
+        /// <summary>
+        /// 摄像头初始化结束
+        /// </summary>
+        public static event Action<ErrorMessageType> OnInitOver;
+        /// <summary>
+        /// 需要设置显示控件
+        /// </summary>
+        public static event NeedSetControlsDelegate OnNeedSetControls;
+        /// <summary>
+        /// 拍照结束
+        /// </summary>
+        public static event Action<List<StorageFile>, CaptureOverResType> OnCaptureOver;
+
+        #endregion
+
+        #region 公开属性
+
+        /// <summary>
+        /// 是否正在加载Camera
+        /// </summary>
+        public static bool IsLoading = false;
+        /// <summary>
+        /// 预览分辨率集合
+        /// </summary>
+        public static List<CameraSizeInfo> CameraPreviewSizeList;
+        /// <summary>
+        /// 照片分辨率集合
+        /// </summary>
+        public static List<CameraSizeInfo> CameraPhotoSizeList;
+        /// <summary>
+        /// 摄像头设备列表
+        /// </summary>
+        public static List<CameraInfo> CameraDevicesList;
+        /// <summary>
+        /// 选择的摄像头编号
+        /// </summary>
+        public static string SelectedCameraId;
+        /// <summary>
+        /// 是图片照片，照片
+        /// </summary>
+        public static bool IsPhotoFromImagePropStream;
+        /// <summary>
+        /// 支持设置感兴趣区域
+        /// </summary>
+        public static bool IsSupportROI;
+        /// <summary>
+        /// 支持连拍功能高级功能
+        /// </summary>
+        public static bool IsSupportContinuousCapture;
+        /// <summary>
+        /// 硬件驱动支持缩放
+        /// </summary>
+        public static bool IsSupportHWZoom;
+        /// <summary>
+        /// 缩放最大值
+        /// </summary>
+        public static double MaxZoomSetting;
+        /// <summary>
+        /// 缩放最小值
+        /// </summary>
+        public static double MinZoomSetting;
+        /// <summary>
+        /// 缩放间隔
+        /// </summary>
+        public static double StepZoomSeting;
+        /// <summary>
+        /// 当前照片宽度
+        /// </summary>
+        public static uint CurrentPhotoW;
+        /// <summary>
+        /// 当前照片高度
+        /// </summary>
+        public static uint CurrentPhotoH;
+        /// <summary>
+        /// 当前预览宽度
+        /// </summary>
+        public static uint CurrentPreviewW;
+        /// <summary>
+        /// 当前预览高度
+        /// </summary>
+        public static uint CurrentPreviewH;
+        /// <summary>
+        /// 是否拥有照片流
+        /// </summary>
+        public static bool IsHavePhotoStream = false;
+        /// <summary>
+        /// 可以设置摄像头
+        /// </summary>
+        public static bool IsCanSetCamera = false;
+        /// <summary>
+        /// 可以使用摄像头
+        /// </summary>
+        public static bool IsCanUseCamera = false;
+        /// <summary>
+        /// 是否在支持的录制视频分辨率内
+        /// </summary>
+        public static bool IsCanRecord = false;
+        /// <summary>
+        /// 摄像显示信息
+        /// </summary>
+        public static string CameraShowInfo = string.Empty;
+        /// <summary>
+        /// 支持的录像分辨率
+        /// </summary>
+        public static RecordSizeInfo[] RecordSizeList = new RecordSizeInfo[] {
+            new RecordSizeInfo(1920, 1080, VideoEncodingQuality.HD1080p),
+            new RecordSizeInfo(1280, 720, VideoEncodingQuality.HD720p)
+        };
+
+        #endregion
+
+        #region 私有属性
+
+        /// <summary>
+        /// 主摄像头
+        /// </summary>
+        public static MediaCapture MainCamera;
+        /// <summary>
+        /// 当前设备
+        /// </summary>
+        private static DeviceInformation CurrentCamDevice;
+        /// <summary>
+        /// 低延迟拍照
+        /// </summary>
+        private static LowLagPhotoCapture LowLagPhoto;
+        /// <summary>
+        /// 失败重试次数
+        /// </summary>
+        private static int FailedIndex = 1;
+        /// <summary>
+        /// 已经在预览流上添加过效果
+        /// </summary>
+        private static bool IsZoomEffectAdded = false;
+        /// <summary>
+        /// true 逆时针旋转图像 : 前置摄像头.
+        /// false顺时针旋转图像： 后置摄像头.
+        /// </summary>
+        private static bool ReversePreviewRotation = false;
+        /// <summary>
+        /// 照片流模式
+        /// </summary>
+        private static PhotoCaptureSource PhotoSource = PhotoCaptureSource.Auto;
+        /// <summary>
+        ///是否支持同时录制和拍照
+        /// </summary>
+        public static bool isConcurrentRecordAndPhotoSupport = false;
+        /// <summary>
+        ///if set the focus mode to Auto-focus
+        /// </summary>
+        private static bool IsSetFocusAF = false;
+        /// <summary>
+        ///if set the focus mode to Auto-Exposure
+        /// </summary>
+        private static bool IsSetFocusAE = false;
+
+        #endregion
+
+    }
+}

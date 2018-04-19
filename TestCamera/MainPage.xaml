@@ -1,0 +1,188 @@
+﻿<Page
+    x:Class="TestCamera.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TestCamera"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" Loaded="Page_Loaded" SizeChanged="Page_SizeChanged">
+    <Grid>
+        <Grid.RowDefinitions >
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="CaptureGrid"  >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <CaptureElement Name="cpeMain" Stretch="UniformToFill" Grid.ColumnSpan="2"/>
+            <GridView Name="gvwImageList" Grid.Column="1" SelectionMode="None"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <GridView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapGrid Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </GridView.ItemsPanel>
+            </GridView>
+            <TextBox
+            Name="txtLog"
+            Grid.ColumnSpan="2"
+            AcceptsReturn="True"
+            IsReadOnly="True"
+            Background="Transparent"
+            Foreground="White"
+            Margin="20"
+            Visibility="Collapsed"/>
+        </Grid>
+
+        <Grid Background="LightGray" Grid.Row="1">
+            <ContentControl x:Name="BottomAppBar" HorizontalContentAlignment="Stretch">
+                <Grid Margin="0,0,0,-2" >
+                    <Grid Background="Black" Opacity="0.6" RenderTransformOrigin="0.514,0.135" />
+                    <StackPanel Orientation="Vertical" Margin="10">
+                        <StackPanel Orientation="Horizontal" Height="52">
+                            <TextBlock VerticalAlignment="Center" Text="Camera" Margin="10,0,0,0" />
+                            <ComboBox
+                            Name="cbxCameraList"
+                            VerticalAlignment="Center"
+                            Margin="10,0,0,0"
+                            Width="80"
+                            DisplayMemberPath="Name"
+                            SelectionChanged="cbxCameraList_SelectionChanged"/>
+                            <TextBlock VerticalAlignment="Center" Text="Camera Size" Margin="10,0,0,0" />
+                            <ComboBox
+                            Name="cbxSizeList"
+                            VerticalAlignment="Center"
+                            Margin="10,0,0,0"
+                            Width="80"
+                            DisplayMemberPath="ShowText"
+                            SelectionChanged="cbxSizeList_SelectionChanged"/>
+                            <!--<TextBlock VerticalAlignment="Center" Text="One Capture Type" Margin="10,0,0,0" />
+                        <ComboBox
+                            Name="cbxOneCaptureType"
+                            VerticalAlignment="Center"
+                            Margin="10,0,0,0"
+                            Width="80" SelectionChanged="cbxOneCaptureType_SelectionChanged">
+                            <ComboBoxItem Content="CapturePhotoToStreamAsync" IsSelected="True" />
+                            <ComboBoxItem Content="PrepareLowLagPhotoCaptureAsync" />
+                        </ComboBox>-->
+                            <TextBlock VerticalAlignment="Center" Text="VideoDevice.zoom" Margin="10,0,0,0" />
+                            <Slider
+                            Name="sldZoom"
+                            Orientation="Horizontal"
+                            Width="100"
+                            Height="40"
+                            Margin="10,-8,0,0"
+                            VerticalAlignment="Center"
+                            ValueChanged="sldZoom_ValueChanged"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                            Name="btnCaptureMorePhoto"
+                            Margin="10,0,0,0" Content="Photo Sequence Capture"
+                            Click="btnCaptureMorePhoto_Click"/>
+                            <Button
+                            Name="btnNormalCapture"
+                            Margin="10,0,0,0" Content="Normal Capture"
+                            Click="btnNormalCapture_Click"/>
+
+                            <CheckBox
+                            Name="CheckBoxLowLagCapture"
+                            Margin="10,0,0,0"
+                            Content="EnableLowLagCapture"
+                            Click="cbEnableLowLagCapture"/>
+
+                            <Button
+                            Name="btnLowLagCapture"
+                            Margin="10,0,0,0"
+                            Content="LowLagCapture"
+                            Click="btnClickLowLagCapture"
+                                IsEnabled="False"/>
+
+                            <Button
+                            Name="btnMoire"
+                            Margin="10,0,0,0"
+                            Content="Moire"
+                            Click="btnMoire_Click"/>
+
+                            <Button
+                            Name="btn"
+                            Margin="10,0,0,0"
+                            Content="RELOAD CAMERA"
+                            Click="btn_Click"/>
+                            <Button
+                            x:Name="btnClearPhoto"
+                            Margin="10,0,0,0" Content="Clear Photo List"
+                            Click="btnClearPhoto_Click"/>
+
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                            x:Name="btnShowLog"
+                            Margin="10,0,0,0" Content="Logs"
+                            Click="btnShowLog_Click"/>
+
+                            <Button
+                            x:Name="btnClearLog"
+                            Margin="10,0,0,0" Content="Clear Logs"
+                            Click="btnClearLog_Click"/>
+
+                            <Button
+                            	x:Name="btnSettings"
+                            	Margin="10,0,0,0" Content="Settings"
+                            	Click="btnSettings_Click">
+
+                                <Button.Flyout>
+                                    <Flyout>
+                                        <StackPanel>
+                                            <CheckBox
+                                            Name="AutoFocus"
+                                            Margin="10,0,0,0"
+                                            Content="TAutoFocus"
+                                            Click="cbAutoFocus"/>
+                                            
+                                            <CheckBox
+                                            Name="AutoExposure"
+                                            Margin="10,0,0,0"
+                                            Content="TAutoExposure"
+                                            Click="cbAutoExposure"/>
+                                                                                        
+                                            <CheckBox
+                                            Name="AutoBacklightCompensation"
+                                            Margin="10,0,0,0"
+                                            Content="BacklightCompensation"
+                                            Click="cbBacklightCompensation"/>
+                                            
+                                            <CheckBox
+                                            Name="AutoWhiteBalance"
+                                            Margin="10,0,0,0"
+                                            Content="WhiteBalance"
+                                            Click="cbWhiteBalance"/>
+
+                                        </StackPanel>
+                                    </Flyout>
+                                </Button.Flyout>
+                            </Button>
+
+                            <Button
+                            	x:Name="btnShowCameraInfo"
+                            	Margin="10,0,0,0" Content="Show Camera Info"
+                            	Click="btnShowCameraInfo_Click">
+                                <Button.Flyout>
+                                    <Flyout>
+                                        <StackPanel>
+                                            <TextBox IsReadOnly="True" x:Name="tblCameraInfo" AcceptsReturn="True" />
+                                            <Button x:Name="btnCopy" Content="Copy" Click="btnCopy_Click" />
+                                        </StackPanel>
+                                    </Flyout>
+                                </Button.Flyout>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </ContentControl>
+        </Grid>
+    </Grid>
+</Page>

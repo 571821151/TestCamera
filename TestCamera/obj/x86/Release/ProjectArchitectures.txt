@@ -1,0 +1,1 @@
+G:\testcamera\TestCamera\TestCamera.csproj;x86

@@ -1,0 +1,11 @@
+[Files]
+"E:\WorkStation\History\testcamera\TestCamera\bin\Release\AppxManifest.xml" "AppxManifest.xml"
+"E:\WorkStation\History\testcamera\TestCamera\bin\Release\TestCamera.exe" "TestCamera.exe"
+"E:\WorkStation\History\testcamera\TestCamera\Assets\Logo.scale-100.png" "Assets\Logo.scale-100.png"
+"E:\WorkStation\History\testcamera\TestCamera\Assets\SmallLogo.scale-100.png" "Assets\SmallLogo.scale-100.png"
+"E:\WorkStation\History\testcamera\TestCamera\Assets\SplashScreen.scale-100.png" "Assets\SplashScreen.scale-100.png"
+"E:\WorkStation\History\testcamera\TestCamera\Assets\StoreLogo.scale-100.png" "Assets\StoreLogo.scale-100.png"
+"E:\WorkStation\History\testcamera\TestCamera\bin\Release\TestCamera.xr.xml" "TestCamera.xr.xml"
+"E:\WorkStation\History\testcamera\TestCamera\bin\Release\App.xbf" "App.xbf"
+"E:\WorkStation\History\testcamera\TestCamera\bin\Release\MainPage.xbf" "MainPage.xbf"
+"E:\WorkStation\History\testcamera\TestCamera\bin\Release\resources.pri" "resources.pri"
